@@ -26,3 +26,12 @@ CREATE TABLE department (
   name VARCHAR(30) NULL,
   PRIMARY KEY (id)
 );
+
+INSERT INTO department (name)
+VALUES ("executives"), ("executives");
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("cto", 2500000, 1), ("ceo", 2500000, 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("nick", "ryder", 2, 1), ("mark", "ryder", 1, 1) ;
