@@ -34,7 +34,7 @@ INSERT INTO department (name)
 VALUES ("executives"), ("team leads"), ("minions");
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("ceo", 1000000.994, 1), ("sales team lead", 100000.979, 2), ("sales agent", 50000.959, 3);
+VALUES ("ceo", 1000000, 1), ("sales team lead", 100000, 2), ("sales agent", 50000, 3);
 
 INSERT INTO employee (first_name, last_name, role_id)
 VALUES ("nick", "ryder", 1); 
@@ -43,4 +43,4 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("mike", "jones", 2, 1);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("zack", "harper", 3, 2);
+VALUES ("zack", "thomas", 3, 2);
