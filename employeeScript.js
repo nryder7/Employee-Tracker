@@ -43,11 +43,11 @@ const addEmployeeQuestions = [
 ]
 
 const removeEmployeeQuestions = [
-{
-  type: "input",
-  message: "What is the ID number of the employee you want to delete?",
-  name: "employeeID"
-}
+  {
+    type: "input",
+    message: "What is the ID number of the employee you want to delete?",
+    name: "employeeID"
+  }
 ]
 var connection = mysql.createConnection({
   host: "localhost",
@@ -60,6 +60,10 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
+  initialPrompt();
+});
+
+function initialPrompt() {
   inquirer
     .prompt(questions)
     .then(function (answers) {
@@ -88,14 +92,15 @@ connection.connect(function (err) {
         console.log("Update Employee Manager Now")
       }
     });
-});
+}
 
 function viewAllEmployees() {
   connection.query("SELECT * FROM employee", function (err, res) {
     if (err) throw err;
     console.table(res);
-    connection.end();
+    initialPrompt();
   });
+
 }
 
 function viewAllEmployeesByDepartment() {
@@ -103,33 +108,36 @@ function viewAllEmployeesByDepartment() {
     .prompt(departmentSelection)
     .then(function (answers) {
 
-  connection.query("SELECT first_name, last_name, role_id, department_id FROM employee RIGHT JOIN role ON role.id = employee.role_id", function (err, res) {
-    var responseDepartments = []
-    for (var i = 0; i < res.length; i++) {
-    if (res[i].department_id === answers.departmentNumber) {
-        responseDepartments.push(res[i]);
-    }   
-  }
-  console.table(responseDepartments);
-    connection.end();
-  });
-})
+      connection.query("SELECT first_name, last_name, role_id, department_id FROM employee RIGHT JOIN role ON role.id = employee.role_id", function (err, res) {
+        var responseDepartments = []
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].department_id === answers.departmentNumber) {
+            responseDepartments.push(res[i]);
+          }
+        }
+        console.table(responseDepartments);
+        initialPrompt();
+      });
+    })
 }
 
-// function viewAllEmployeesByManager() {
-//   var responseManager = []
-//     for (var j = 0; j < res.length; j++) {
-//     if (res[j].manager_id === answers.departmentNumber) {
-//         responseDepartments.push(res[i]);
-//     }   
-//   }
-//   console.table(responseDepartments);
-//   connection.query("SELECT * FROM role", function (err, res) {
-//     if (err) throw err;
-//     console.table(res);
-//     // connection.end();
-//   });
-// }
+function viewAllEmployeesByManager() {
+  // var responseManager = []
+  //   for (var j = 0; j < res.length; j++) {
+  //   if (res[j].manager_id === answers.departmentNumber) {
+  //       responseDepartments.push(res[i]);
+  //   }   
+  // }
+  // console.table(responseDepartments);
+  // connection.query("SELECT * FROM role", function (err, res) {
+  //   if (err) throw err;
+  //   console.table(res);
+  console.log("--------------------------------------")
+  console.log("Feature not yet available")
+  console.log("--------------------------------------")
+  initialPrompt();
+  // });
+}
 
 function addEmployee() {
   inquirer
@@ -139,7 +147,7 @@ function addEmployee() {
       var firstNameResponse = answers.firstName.trim();
       if (firstNameResponse === "") {
         console.log("first name is required")
-        answers.firstName = null        
+        answers.firstName = null
       }
 
       var lastNameResponse = answers.lastName.trim();
@@ -166,7 +174,7 @@ function addEmployee() {
         ],
         function (err, res) {
           if (err) throw err;
-          viewAllEmployees();
+          initialPrompt();
         })
     });
 };
@@ -176,18 +184,19 @@ function removeEmployee() {
   inquirer
     .prompt(removeEmployeeQuestions)
     .then(function (answers) {
-  console.log("Removing employee\n");
-  connection.query(
-    "DELETE FROM employee WHERE ?",
-    {
-      id: answers.employeeID
-    },
-    function(err, res) {
-      if (err) throw err;
-      // console.log(res.affectedRows + " employee deleted!\n");
-      viewAllEmployees();
-    }
-  );
-});
+      console.log("Removing employee\n");
+      connection.query(
+        "DELETE FROM employee WHERE ?",
+        {
+          id: answers.employeeID
+        },
+        function (err, res) {
+          if (err) throw err;
+          // console.log(res.affectedRows + " employee deleted!\n");
+          // viewAllEmployees();
+          initialPrompt();
+        }
+      );
+    });
 }
 
