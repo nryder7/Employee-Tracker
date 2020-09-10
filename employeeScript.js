@@ -111,7 +111,7 @@ function viewAllEmployeesByDepartment() {
     }   
   }
   console.table(responseDepartments);
-  // connection.end();
+    connection.end();
   });
 })
 }
@@ -136,6 +136,18 @@ function addEmployee() {
     .prompt(addEmployeeQuestions)
     .then(function (answers) {
 
+      var firstNameResponse = answers.firstName.trim();
+      if (firstNameResponse === "") {
+        console.log("first name is required")
+        answers.firstName = null        
+      }
+
+      var lastNameResponse = answers.lastName.trim();
+      if (lastNameResponse === "") {
+        console.log("last name is required")
+        answers.lastName = null
+      }
+
       var ManagerIDConvert = answers.managerID
       if (ManagerIDConvert === "None") {
         ManagerIDConvert = null
@@ -158,6 +170,7 @@ function addEmployee() {
         })
     });
 };
+
 
 function removeEmployee() {
   inquirer
