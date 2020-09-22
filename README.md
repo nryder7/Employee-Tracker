@@ -16,4 +16,4 @@ Please send any questions to NRYDER7@GMAIL.COM. You can find more of my work at 
 ## License 
 None
 
-![Screenshot of project](employeeTracker.png)
+![Employee Tracker GIF](employeeTracker.gif)
